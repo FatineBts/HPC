@@ -104,8 +104,7 @@ double vPhy_forward(int t, int i, int j) {
 }
 
 void forward(int NP, int rang) {
-  //MPI_Status status;
-  MPI_Request isreq1, isreq2, irreq1, irreq2;
+  MPI_Status status;
   int TAG_FIRST_ROW = 0;
   int TAG_LAST_ROW = 1;
   FILE *file = NULL;
@@ -117,30 +116,16 @@ void forward(int NP, int rang) {
     export_step(file, t);
   }
   
-  printf("Avant boucle. Rank = %d\n", rang);
   for (t = 1; t < nb_steps; t++) {
-    printf("Dans boucle. t = %d, Rank = %d\n", t, rang);
-    /* Récupération et envoi des lignes à la frontière avec les proc voisins */
-    if (rang!=0)     MPI_Isend(hFil+size_y, size_y, MPI_DOUBLE, rang-1, TAG_FIRST_ROW, MPI_COMM_WORLD, &isreq1);
+
+    if (rang!=0)     MPI_Send(hFil+size_y, size_y, MPI_DOUBLE, rang-1, TAG_FIRST_ROW, MPI_COMM_WORLD);
     printf("First row Sent. Rank = %d\n", rang);
-    if (rang!=NP-1)  MPI_Isend(hFil+size_y*(size_x-2), size_y, MPI_DOUBLE, rang+1, TAG_LAST_ROW, MPI_COMM_WORLD, &isreq2);
+    if (rang!=NP-1)  MPI_Send(hFil+size_y*(size_x-2), size_y, MPI_DOUBLE, rang+1, TAG_LAST_ROW, MPI_COMM_WORLD);
       printf("Last row Sent. Rank = %d\n", rang);
-    if (rang!=NP-1)  MPI_Irecv(hFil+size_y*(size_x-1), size_y, MPI_DOUBLE, rang+1, TAG_FIRST_ROW, MPI_COMM_WORLD, &irreq1);
+    if (rang!=NP-1)  MPI_Recv(hFil+size_y*(size_x-1), size_y, MPI_DOUBLE, rang+1, TAG_FIRST_ROW, MPI_COMM_WORLD,&status);
       printf("First row Received. Rank = %d\n", rang);
-    if (rang!=0)     MPI_Irecv(hFil, size_y, MPI_DOUBLE, rang-1, TAG_LAST_ROW, MPI_COMM_WORLD, &irreq2);
+    if (rang!=0)     MPI_Recv(hFil, size_y, MPI_DOUBLE, rang-1, TAG_LAST_ROW, MPI_COMM_WORLD,&status);
     printf("Last row Received. Rank = %d\n", rang);
-
-    // MPI_Cancel(&isreq1);
-    // MPI_Cancel(&isreq2);
-    // MPI_Cancel(&irreq1);
-    // MPI_Cancel(&irreq2);
-
-    // printf("toto ok ");
-   
-    // MPI_Wait(&isreq1, &status);
-    // MPI_Wait(&isreq2, &status);
-    // MPI_Wait(&irreq1, &status);
-    // MPI_Wait(&irreq2, &status);
 
     if (t == 1) {
       svdt = dt;

@@ -1,0 +1,1 @@
+Commande globable avec n = 1 : mpirun -n 1 -hostfile hostfile ./bin/shalw -x -512 -y -512 -t 40

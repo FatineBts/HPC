@@ -29,61 +29,55 @@ int main(int argc, char **argv) {
   int rang; // rang
   int NP; // NP = nombre de processus
 
-
-
+    /* Initialisation MPI */
+  MPI_Init(&argc, &argv);
+  MPI_Comm_size(MPI_COMM_WORLD, &NP);
+  MPI_Comm_rank(MPI_COMM_WORLD, &rang); 
+  
  /* Variables liees au chronometrage */
   double debut=0, fin=0;
 
    /* debut du chronometrage */
    
- 
+   debut = my_gettimeofday();
+
   parse_args(argc, argv);
   printf("Command line options parsed\n");
 
-  gauss_init();
-  printf("State initialised\n"); 
 
-    /* Initialisation MPI */
-  MPI_Init(&argc, &argv);
-  MPI_Comm_size(MPI_COMM_WORLD, &NP);
-  MPI_Comm_rank(MPI_COMM_WORLD, &rang); 
-	
+
   if (rang ==0)
   {
-    debut = my_gettimeofday(); 
-		alloc();
-		printf("Memory allocated by rank 0\n");  
+    alloc();
+    printf("Memory allocated by rank 0\n"); 
+    gauss_init();
+    printf("State initialised\n");  
+	 
 		/* Initialisations / calcul */		
-
 	}
 
   /* Permet de donner la taille de sixe_x et size_y*/
   size_y = g_size_y ;
   size_x = (rang==0 || rang==NP-1)?(g_size_x/NP +1):(g_size_x/NP +2);
   
-  loc_alloc();
+  alloc_2();
   printf("Local memory allocated. Rang = %d \n", rang); 
    
-//  printf("Avant Scatter \n");
-	//MPI_Scatter(g_hFil /*sbuf*/, size_x/NP*size_y /*scount*/, MPI_DOUBLE /*sdtype*/, hFil+size_y*(rang!=0) /*rbuf*/, size_x/NP*size_y /*rcount*/, MPI_DOUBLE /*rdtype*/, 0 /*root*/, MPI_COMM_WORLD /*comm*/);
-  //printf("Après Scatter \n");
 
-	forward(NP, rang); // MPI send and receive 
+  MPI_Scatter(g_hFil /*sbuf*/, size_x/NP*size_y /*scount*/, MPI_DOUBLE /*sdtype*/, hFil+size_y*(rang!=0) /*rbuf*/, size_x/NP*size_y /*rcount*/, MPI_DOUBLE /*rdtype*/, 0 /*root*/, MPI_COMM_WORLD /*comm*/);
+	
+  forward(NP, rang); // MPI send and receive 
 	printf("State computed\n");
 
+  /* fin du chronometrage */
+  fin = my_gettimeofday();
+  printf("Temps total de calcul : %g seconde(s) \n", fin - debut);
 
-
-  if (rang ==0)
-  {
-    /* fin du chronometrage */
-    fin = my_gettimeofday();
-    printf("Temps total de calcul : %g seconde(s) \n", fin - debut);
-    dealloc(); // MÉMOIRE 
-
-  }
+  dealloc(); // MÉMOIRE 
   dealloc_2(); 
   printf("Memory freed\n");
+
   MPI_Finalize();
-  
+
   return EXIT_SUCCESS;
 }
