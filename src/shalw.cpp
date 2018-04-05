@@ -44,9 +44,7 @@ int main(int argc, char **argv) {
   parse_args(argc, argv);
   printf("Command line options parsed\n");
 
-
-
-  if (rang ==0)
+  if (rang==0)
   {
     alloc();
     printf("Memory allocated by rank 0\n"); 
@@ -64,19 +62,32 @@ int main(int argc, char **argv) {
   printf("Local memory allocated. Rang = %d \n", rang); 
    
 
-  MPI_Scatter(g_hFil /*sbuf*/, size_x/NP*size_y /*scount*/, MPI_DOUBLE /*sdtype*/, hFil+size_y*(rang!=0) /*rbuf*/, size_x/NP*size_y /*rcount*/, MPI_DOUBLE /*rdtype*/, 0 /*root*/, MPI_COMM_WORLD /*comm*/);
+  MPI_Scatter(g_hFil /*sbuf*/, g_size_x/(NP)*size_y /*scount*/, MPI_DOUBLE /*sdtype*/, hFil+size_y*(rang!=0) /*rbuf*/, g_size_x/NP*size_y /*rcount*/, MPI_DOUBLE /*rdtype*/, 0 /*root*/, MPI_COMM_WORLD /*comm*/);
 	
   forward(NP, rang); // MPI send and receive 
 	printf("State computed\n");
 
+  printf("1\n"); 
   /* fin du chronometrage */
   fin = my_gettimeofday();
   printf("Temps total de calcul : %g seconde(s) \n", fin - debut);
 
+  printf("rang %d\n",rang);
+
+if(rang==0)
+{
+  printf("bla previous");
   dealloc(); // MÉMOIRE 
+  printf("bla");
+}
+  
+  printf("2\n"); 
+
   dealloc_2(); 
   printf("Memory freed\n");
 
+
+  printf("3\n");
   MPI_Finalize();
 
   return EXIT_SUCCESS;
