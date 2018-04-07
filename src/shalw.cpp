@@ -28,7 +28,6 @@ int main(int argc, char **argv) {
  	/* Par processeur */ 
   int rang; // rang
   int NP; // NP = nombre de processus
-
     /* Initialisation MPI */
   MPI_Init(&argc, &argv);
   MPI_Comm_size(MPI_COMM_WORLD, &NP);
@@ -55,35 +54,32 @@ int main(int argc, char **argv) {
 	}
 
   /* Permet de donner la taille de sixe_x et size_y*/
-  size_y = g_size_y ;
-  size_x = (rang==0 || rang==NP-1)?(g_size_x/NP +1):(g_size_x/NP +2);
-  
+    size_y = g_size_y ;
+   size_x = (rang==0 || rang==NP-1)?(g_size_x/NP +1):(g_size_x/NP +2);
+
   alloc_2();
   printf("Local memory allocated. Rang = %d \n", rang); 
    
 
   MPI_Scatter(g_hFil /*sbuf*/, g_size_x/(NP)*g_size_y /*scount*/, MPI_DOUBLE /*sdtype*/, hFil+size_y*(rang!=0) /*rbuf*/, g_size_x/NP*g_size_y /*rcount*/, MPI_DOUBLE /*rdtype*/, 0 /*root*/, MPI_COMM_WORLD /*comm*/);
-	printf("Après Scatter\n");
+ 
   forward(NP, rang); // MPI send and receive 
-	printf("State computed\n");
+  printf("State computed\n");
 
-  printf("1\n"); 
   /* fin du chronometrage */
   fin = my_gettimeofday();
   printf("Temps total de calcul : %g seconde(s) \n", fin - debut);
 
-if(rang==0)
-{
-  dealloc(); // MÉMOIRE 
-  printf("Memory freed 1\n");
-
-}
-  
-  dealloc_2(); 
+      if(rang==0)
+       {
+	 dealloc(); // MÉMOIRE 
+	 printf("Memory freed 1\n");
+       }
+   
+   dealloc_2(); 
   printf("Memory freed 2\n");
-
-
-  MPI_Finalize();
+   
+  MPI_Finalize(); 
 
   return EXIT_SUCCESS;
 }
