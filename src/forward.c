@@ -111,21 +111,28 @@ void forward(int NP, int rang) {
   double svdt = 0.;
   int t = 0;
   
-  if (file_export) {
-    file = create_file();
-    export_step(file, t);
+  if(rang==0)
+  {
+    printf("Début if\n");
+    if (file_export) {
+      file = create_file();
+      printf("Avant step\n");
+      export_step(file, t);
+      printf("Fin if\n");
   }
+  }
+  printf("Avant tous les send\n");
   
   for (t = 1; t < nb_steps; t++) {
 
-    if (rang!=0)     MPI_Send(hFil+size_y, g_size_x/NP*g_size_y, MPI_DOUBLE, rang-1, TAG_FIRST_ROW, MPI_COMM_WORLD);
-    printf("First row Sent. Rank = %d\n", rang);
-    if (rang!=NP-1)  MPI_Recv(hFil+size_y*(size_x-1), g_size_x/NP*g_size_y, MPI_DOUBLE, rang+1, TAG_FIRST_ROW, MPI_COMM_WORLD,&status);
-      printf("First row Received. Rank = %d\n", rang);
-    if (rang!=NP-1)  MPI_Send(hFil+size_y*(size_x-2),g_size_x/NP*g_size_y, MPI_DOUBLE, rang+1, TAG_LAST_ROW, MPI_COMM_WORLD);
-      printf("Last row Sent. Rank = %d\n", rang);
-    if (rang!=0)     MPI_Recv(hFil,g_size_x/NP*g_size_y, MPI_DOUBLE, rang-1, TAG_LAST_ROW, MPI_COMM_WORLD,&status);
-    printf("Last row Received. Rank = %d\n", rang);
+    if (rang!=0)     MPI_Send(hFil+size_y,g_size_x/(NP)*g_size_y, MPI_DOUBLE, rang-1, TAG_FIRST_ROW, MPI_COMM_WORLD);
+    printf("Send1\n");
+    if (rang!=NP-1)  MPI_Recv(hFil+size_y*(size_x-1),g_size_x/(NP)*g_size_y, MPI_DOUBLE, rang+1, TAG_FIRST_ROW, MPI_COMM_WORLD,&status);
+    printf("Recv &\n");
+    if (rang!=NP-1)  MPI_Send(hFil+size_y*(size_x-2),g_size_x/(NP)*g_size_y, MPI_DOUBLE, rang+1, TAG_LAST_ROW, MPI_COMM_WORLD);
+    printf("Send2\n");
+    if (rang!=0)     MPI_Recv(hFil,g_size_x/(NP)*g_size_y, MPI_DOUBLE, rang-1, TAG_LAST_ROW, MPI_COMM_WORLD,&status);
+    printf("Recv2\n");
 
     if (t == 1) {
       svdt = dt;
