@@ -1,0 +1,266 @@
+//////////////////// Séquentiel //////////////
+
+./bin/shalw --export --export-path /tmp/3302011
+
+Par défaut :
+State computed
+Temps total de calcul : 18.2142 seconde(s) 
+Memory freed 1
+Memory freed 2
+
+x = 512 = y, t = 1000
+State computed
+Temps total de calcul : 82.0894 seconde(s) 
+Memory freed 1
+Memory freed 2
+
+x = 512 = y, t = 40
+Temps total de calcul : 3.22803 seconde(s) 
+
+x = 1024 = y, t = 40
+Temps total de calcul : 12.0963 seconde(s) 
+
+
+./bin/shalw -x 8192 -y 8192 -t 20
+
+
+///////////////////// 2 processeurs ///////////////
+
+Par défaut :
+Temps total de calcul : 10.7926 seconde(s) 
+State computed
+Temps total de calcul : 10.7929 seconde(s)
+
+
+x = 512 = y, t = 1000
+Temps total de calcul : 51.3681 seconde(s) 
+State computed
+Temps total de calcul : 51.3681 seconde(s) 
+
+
+x = 512 = y, t = 40
+Temps total de calcul : 2.17436 seconde(s) 
+Memory freed 1
+State computed
+Temps total de calcul : 2.17418 seconde(s)
+
+
+x = 1024 = y, t = 40
+Temps total de calcul : 7.30904 seconde(s) 
+State computed
+Temps total de calcul : 7.30903 seconde(s) 
+
+x = y = 8192, t = 20
+State computed
+State computed
+Temps total de calcul : 507.419 seconde(s) 
+Temps total de calcul : 507.419 seconde(s) 
+Memory freed 1
+Memory freed 2
+Memory freed 2
+
+
+///////////////////// 4 processeurs ///////////////
+
+
+Par défaut :
+Temps total de calcul : 12.3562 seconde(s) 
+Memory freed 2
+State computed
+Temps total de calcul : 12.3572 seconde(s) 
+Memory freed 2
+State computed
+Temps total de calcul : 12.3581 seconde(s) 
+Memory freed 2
+State computed
+Temps total de calcul : 12.3584 seconde(s) 
+
+x = 512 = y, t = 1000
+Temps total de calcul : 54.8628 seconde(s) 
+Memory freed 2
+State computed
+Temps total de calcul : 54.8704 seconde(s) 
+Memory freed 2
+State computed
+Temps total de calcul : 54.8711 seconde(s) 
+Memory freed 2
+State computed
+Temps total de calcul : 54.8714 seconde(s) 
+
+
+x = 512 = y, t = 40
+Temps total de calcul : 2.3663 seconde(s) 
+Memory freed 2
+State computed
+Temps total de calcul : 2.37206 seconde(s) 
+Memory freed 2
+State computed
+State computed
+Temps total de calcul : 2.37471 seconde(s) 
+Temps total de calcul : 2.37495 seconde(s) 
+
+
+
+x = 1024 = y, t = 40
+Temps total de calcul : 7.58373 seconde(s) 
+Memory freed 2
+State computed
+Temps total de calcul : 7.61651 seconde(s) 
+Memory freed 2
+State computed
+Temps total de calcul : 7.61765 seconde(s) 
+State computed
+Temps total de calcul : 7.61882 seconde(s) 
+
+
+
+x = y = 8192, t = 20
+State computed
+Temps total de calcul : 796.528 seconde(s) 
+Memory freed 2
+State computed
+State computed
+State computed
+Temps total de calcul : 798.777 seconde(s) 
+Temps total de calcul : 798.775 seconde(s) 
+Memory freed 1
+Temps total de calcul : 798.777 seconde(s) 
+Memory freed 2
+Memory freed 2
+Memory freed 2
+
+
+///////////////////// 8 processeurs ///////////////
+
+Par défaut :
+Temps total de calcul : 13.1102 seconde(s) 
+Memory freed 2
+State computed
+Temps total de calcul : 13.11 seconde(s) 
+Memory freed 2
+State computed
+Temps total de calcul : 13.1106 seconde(s) 
+Memory freed 2
+State computed
+Temps total de calcul : 13.1099 seconde(s) 
+Memory freed 2
+State computed
+Temps total de calcul : 13.1112 seconde(s) 
+Memory freed 2
+State computed
+Temps total de calcul : 13.1103 seconde(s) 
+Memory freed 2
+State computed
+Temps total de calcul : 13.1088 seconde(s) 
+Memory freed 2
+State computed
+Temps total de calcul : 13.1123 seconde(s) 
+
+
+x = 512 = y, t = 1000
+Temps total de calcul : 48.5406 seconde(s) 
+Memory freed 2
+State computed
+Temps total de calcul : 48.5417 seconde(s) 
+Memory freed 2
+State computed
+Temps total de calcul : 48.5406 seconde(s) 
+Memory freed 2
+State computed
+Temps total de calcul : 48.5428 seconde(s) 
+Memory freed 2
+State computed
+Temps total de calcul : 48.5455 seconde(s) 
+Memory freed 2
+State computed
+Temps total de calcul : 48.5471 seconde(s) 
+Memory freed 2
+State computed
+Temps total de calcul : 48.5458 seconde(s) 
+Memory freed 2
+State computed
+Temps total de calcul : 48.5492 seconde(s) 
+Memory freed 1
+Memory freed 2
+
+x = 512 = y, t = 40
+State computed
+Temps total de calcul : 2.25197 seconde(s) 
+Memory freed 2
+State computed
+Temps total de calcul : 2.25275 seconde(s) 
+Memory freed 2
+State computed
+Temps total de calcul : 2.2531 seconde(s) 
+Memory freed 2
+State computed
+Temps total de calcul : 2.25222 seconde(s) 
+Memory freed 2
+State computed
+Temps total de calcul : 2.25544 seconde(s) 
+Memory freed 2
+State computed
+Temps total de calcul : 2.25644 seconde(s) 
+Memory freed 2
+State computed
+Temps total de calcul : 2.25806 seconde(s) 
+Memory freed 2
+State computed
+Temps total de calcul : 2.26012 seconde(s) 
+Memory freed 1
+Memory freed 2
+
+x = 1024 = y, t = 40
+Temps total de calcul : 8.30007 seconde(s) 
+Memory freed 2
+State computed
+Temps total de calcul : 8.30085 seconde(s) 
+Memory freed 2
+State computed
+Temps total de calcul : 8.30192 seconde(s) 
+Memory freed 2
+State computed
+Temps total de calcul : 8.32951 seconde(s) 
+Memory freed 2
+State computed
+Temps total de calcul : 8.32912 seconde(s) 
+Memory freed 2
+State computed
+Temps total de calcul : 8.33203 seconde(s) 
+Memory freed 2
+State computed
+Temps total de calcul : 8.33461 seconde(s) 
+Memory freed 2
+State computed
+Temps total de calcul : 8.33532 seconde(s) 
+Memory freed 1
+Memory freed 2
+
+
+x = y = 8192, t = 20
+State computed
+Temps total de calcul : 271.205 seconde(s) 
+Memory freed 2
+State computed
+Temps total de calcul : 271.213 seconde(s) 
+Memory freed 2
+State computed
+Temps total de calcul : 271.217 seconde(s) 
+Memory freed 2
+State computed
+Temps total de calcul : 273.414 seconde(s) 
+Memory freed 2
+State computed
+Temps total de calcul : 273.436 seconde(s) 
+Memory freed 2
+State computed
+Temps total de calcul : 273.443 seconde(s) 
+State computed
+Temps total de calcul : 273.445 seconde(s) 
+State computed
+Temps total de calcul : 273.446 seconde(s) 
+
+
+python3 visu.py /tmp/3302011/shalw_256x256_T1000.sav
+
+
