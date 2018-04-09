@@ -4,14 +4,13 @@ import numpy as np
 import re
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
-import matplotlib
-matplotlib.use('Agg')
 import sys                
 
 def displayFile(fname):
     searchObj = re.search( r'(.*)_(.*)x(.*)_T(.*).sav', fname, 0)
     name = searchObj.group(1) 
     M = int(searchObj.group(2))
+
     N = int(searchObj.group(3))
     T = int(searchObj.group(4))
     # lecture binaire suivant l'ordre de stockage des
