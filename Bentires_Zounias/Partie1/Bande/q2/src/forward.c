@@ -165,9 +165,6 @@ void forward(int NP, int rang) {
 );
 );*/
 
-      if(file_export) {
-      MPI_Gather(&HFIL(t,(rang!=0), 0),(gsize_x/NP)*gsize_y, MPI_DOUBLE, &ghfil(t, 0, 0), (gsize_x/NP)*gsize_y, MPI_DOUBLE, 0, MPI_COMM_WORLD);
-  }
 
   if (rang!=0)
       {
@@ -213,8 +210,7 @@ void forward(int NP, int rang) {
 
     MPI_Waitall(24-12*((rang!=0)||(rang!=NP-1)),request,status);
 
-
-      if(file_export) {
+    if(file_export) {
       MPI_Gather(&HFIL(t,(rang!=0), 0),(gsize_x/NP)*gsize_y, MPI_DOUBLE, &ghfil(t, 0, 0), (gsize_x/NP)*gsize_y, MPI_DOUBLE, 0, MPI_COMM_WORLD);
   }
 

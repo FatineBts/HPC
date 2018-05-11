@@ -9,7 +9,7 @@ void gauss_init(void) {
   gsx = 25000 ;
   gsy = 25000 ;
   
-
+  #pragma omp parallel for schedule(static)
   for (int i = 0; i < gsize_x;  i++) {
     for (int j = 0; j < gsize_y; j++) {
       ghfil(0, i, j) = height *

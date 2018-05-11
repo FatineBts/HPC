@@ -122,27 +122,26 @@ void forward(int NP, int rang) {
   }
   printf("Avant tous les send\n");
   
+  //#pragma omp parallel for
   for (t = 1; t < nb_steps; t++) { //&HFIL(t,sixe_x, 0) + utiliser MPI_SendRecv
 
-   #pragma omp parallel private(t)
-    {
-      t=omp_get_thread_num(); 
+      //t=omp_get_thread_num(); 
     if (t == 1) {
-     #pragma omp critical
+    //#pragma omp critical
 
       svdt = dt;
       dt = 0;
     }
     if (t == 2){
-    #pragma omp critical
+    //#pragma omp critical
 
       dt = svdt / 2.;
     }
-   }
 
-    #pragma omp parallel for
+
+    #pragma omp parallel for  
     for (int j = 0; j < size_y; j++) {
-      #pragma omp parallel for
+      #pragma omp parallel for 
       for (int i = 0; i <size_x; i++) {
 	   HPHY(t, i, j) = hPhy_forward(t, i, j);
 	   UPHY(t, i, j) = uPhy_forward(t, i, j);
