@@ -172,9 +172,6 @@ void forward(int NP, int rang) {
 );
 );*/
 
-      if(file_export) {
-      MPI_Gather(&HFIL(t,(rang!=0), 0),(gsize_x/NP)*gsize_y, MPI_DOUBLE, &ghfil(t, 0, 0), (gsize_x/NP)*gsize_y, MPI_DOUBLE, 0, MPI_COMM_WORLD);
-  }
 
 
   if (rang!=0)

@@ -152,10 +152,6 @@ void forward(int NP, int rang) {
       }
     }
 
-    // Utile que si export
-    if(file_export) {
-      MPI_Gather(&HFIL(t,(rang!=0), 0),(gsize_x/NP)*gsize_y, MPI_DOUBLE, &ghfil(t, 0, 0), (gsize_x/NP)*gsize_y, MPI_DOUBLE, 0, MPI_COMM_WORLD);
-  }
   /* int MPI_Sendrecv(const void *sendbuf, int sendcount, MPI_Datatype sendtype,
                 int dest, int sendtag,
                 void *recvbuf, int recvcount, MPI_Datatype recvtype,
@@ -177,6 +173,11 @@ void forward(int NP, int rang) {
     MPI_Sendrecv(&HPHY(t,(size_x-2),0),size_y, MPI_DOUBLE, rang+1, TAG_LAST_ROW,&HPHY(t,(size_x-1),0),size_y, MPI_DOUBLE, rang+1, TAG_FIRST_ROW,MPI_COMM_WORLD,&status);
     MPI_Sendrecv(&UPHY(t,(size_x-2),0),size_y, MPI_DOUBLE, rang+1, TAG_LAST_ROW,&UPHY(t,(size_x-1),0),size_y, MPI_DOUBLE, rang+1, TAG_FIRST_ROW,MPI_COMM_WORLD,&status);
     MPI_Sendrecv(&VPHY(t,(size_x-2),0),size_y, MPI_DOUBLE, rang+1, TAG_LAST_ROW,&VPHY(t,(size_x-1),0),size_y, MPI_DOUBLE, rang+1, TAG_FIRST_ROW,MPI_COMM_WORLD,&status);
+  }
+
+    // Utile que si export
+    if(file_export) {
+      MPI_Gather(&HFIL(t,(rang!=0), 0),(gsize_x/NP)*gsize_y, MPI_DOUBLE, &ghfil(t, 0, 0), (gsize_x/NP)*gsize_y, MPI_DOUBLE, 0, MPI_COMM_WORLD);
   }
 
 
