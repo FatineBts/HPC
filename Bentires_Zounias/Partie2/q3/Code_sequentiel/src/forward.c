@@ -124,6 +124,8 @@ void forward(void) {
     for (int j = 0; j < size_y; j++) {
       for (int i = 0; i < size_x; i++) {
 	HPHY(t, i, j) = hPhy_forward(t, i, j);
+  //printf("i : %d, j : %d, calcul : %d\n",i,j,(i) + (j) * size_x + ((t)%2) * size_x * size_y ); 
+  //printf("i : %d, j : %d, calcul 2: %d\n",i,j,(j) + (i) * size_y +((t)%2) * size_x * size_y);
 	UPHY(t, i, j) = uPhy_forward(t, i, j);
 	VPHY(t, i, j) = vPhy_forward(t, i, j);
 	HFIL(t, i, j) = hFil_forward(t, i, j);
@@ -135,6 +137,8 @@ void forward(void) {
     if (file_export) {
       export_step(file, t);
     }
+
+
     
     if (t == 2) {
       dt = svdt;

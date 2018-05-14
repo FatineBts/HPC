@@ -1,4 +1,4 @@
-CXX=g++ -Wall -O3 -fopenmp-simd
+CXX=g++ -Wall -O3 
 
 CPPFLAGS=-Iinc
 
