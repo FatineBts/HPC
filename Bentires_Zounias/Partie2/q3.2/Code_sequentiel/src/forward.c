@@ -12,7 +12,7 @@ void forward(void) {
   
   int t = 0;
 
- __m256d  h_hfil, h_hphy, h_ufil, h_vfil, h2_vfil, h2_hphy, h2_uphy, h2_vphy;
+ __m256d  h_hfil, h_hphy, h_ufil, h_vfil, h2_vfil, h2_hphy, h2_uphy, h2_vphy, HP,UP, VP, HF, UF, VF;
  __m256d h2_hfil, h2_ufil, h_dt, h_i_dx, h_d, h_uphy, h_vphy, h_hmoy, h_c, h_i_dy, t1, t2, t3, t4, t5; 
 
 
@@ -33,34 +33,34 @@ void forward(void) {
 
 /*On a inversé les boucles*/
 //////////////////////////////////////////////////////////////////////////////////////////////////////
-    for (int i = 0; i < size_x/4; i++) { // /4 car vecteur de 32 et chaque individu de 8 octets donc 4 éléments 
+    for (int i = 0; i < size_x; i++) { // /4 car vecteur de 32 et chaque individu de 8 octets donc 4 éléments 
       for (int j = 0; j < size_y/4; j++) {
 
       // on charge les macros 
-      HP = _mm256_load_pd(&HPHY(t,i,j)); // il faudra multiplier par 4 pour faire des sauts de 4 
-      UP = _mm256_load_pd(&UPHY(t,i,j));
-      VP = _mm256_load_pd(&VPHY(t,i,j));
-      HF = _mm256_load_pd(&HFIL(t,i,j));
-      UF = _mm256_load_pd(&UFIL(t,i,j));
-      VF = _mm256_load_pd(&VFIL(t,i,j));
+      HP = _mm256_load_pd(&HPHY(t,i,j*4)); // il faudra multiplier par 4 pour faire des sauts de 4 
+      UP = _mm256_load_pd(&UPHY(t,i,j*4));
+      VP = _mm256_load_pd(&VPHY(t,i,j*4));
+      HF = _mm256_load_pd(&HFIL(t,i,j*4));
+      UF = _mm256_load_pd(&UFIL(t,i,j*4));
+      VF = _mm256_load_pd(&VFIL(t,i,j*4));
 
   // variables 
 
         // set1 = initialise un vector avec la valeur d'un double 
-  h_hfil=_mm256_set1_pd(HFIL(t - 1, i, j));
-  h_ufil=_mm256_set1_pd(UFIL(t - 1, i, j));
-  h_vfil=_mm256_set1_pd(VFIL(t - 1, i, j));
-  h_hphy=_mm256_set1_pd(HPHY(t - 1, i, j));
-  h_uphy=_mm256_set1_pd(UPHY(t - 1, i, j));
-  h_vphy=_mm256_set1_pd(VPHY(t - 1, i, j));
+  h_hfil=_mm256_set1_pd(HFIL(t - 1, i, j*4));
+  h_ufil=_mm256_set1_pd(UFIL(t - 1, i, j*4));
+  h_vfil=_mm256_set1_pd(VFIL(t - 1, i, j*4));
+  h_hphy=_mm256_set1_pd(HPHY(t - 1, i, j*4));
+  h_uphy=_mm256_set1_pd(UPHY(t - 1, i, j*4));
+  h_vphy=_mm256_set1_pd(VPHY(t - 1, i, j*4));
    
 
-  h2_hphy=_mm256_set1_pd(HPHY(t, i, j));
-  h2_uphy=_mm256_set1_pd(UPHY(t, i, j));
-  h2_vphy=_mm256_set1_pd(VPHY(t, i, j));
-  h2_hfil=_mm256_set1_pd(HFIL(t, i, j));
-  h2_ufil=_mm256_set1_pd(UFIL(t, i, j));
-  h2_vfil=_mm256_set1_pd(VFIL(t, i, j));
+  h2_hphy=_mm256_set1_pd(HPHY(t, i, j*4));
+  h2_uphy=_mm256_set1_pd(UPHY(t, i, j*4));
+  h2_vphy=_mm256_set1_pd(VPHY(t, i, j*4));
+  h2_hfil=_mm256_set1_pd(HFIL(t, i, j*4));
+  h2_ufil=_mm256_set1_pd(UFIL(t, i, j*4));
+  h2_vfil=_mm256_set1_pd(VFIL(t, i, j*4));
   h_dt=_mm256_set1_pd(dt);
   h_hmoy=_mm256_set1_pd(hmoy);
   h_c=_mm256_set1_pd(c);
@@ -74,11 +74,11 @@ void forward(void) {
 
   c = 0.;
   if (i > 0)
-    c = UPHY(t - 1, i - 1, j);
+    c = UPHY(t - 1, i - 1, j*4);
 
   d = 0.;
-  if (j < size_y - 1)
-    d = VPHY(t - 1, i, j + 1);
+  if (j < size_y/4 - 1)
+    d = VPHY(t - 1, i, j*4 + 1);
 
   t1=_mm256_mul_pd(h_dt ,h_hmoy); 
   t2=_mm256_mul_pd((h_uphy - h_c),h_i_dx);
@@ -96,19 +96,19 @@ void forward(void) {
 
   b = 0.;
   if (i < size_x - 1)
-    b = HPHY(t - 1, i + 1, j);
+    b = HPHY(t - 1, i + 1, j*4);
 
   e = 0.;
-  if (j < size_y - 1)
-    e = VPHY(t - 1, i, j + 1);
+  if (j < size_y/4 - 1)
+    e = VPHY(t - 1, i, j*4 + 1);
 
   f = 0.;
   if (i < size_x - 1)
-    f = VPHY(t - 1, i + 1, j);
+    f = VPHY(t - 1, i + 1, j*4);
 
   g = 0.;
-  if (i < size_x - 1 && j < size_y - 1)
-    g = VPHY(t - 1, i + 1, j + 1);
+  if (i < size_x - 1 && j < size_y/4 - 1)
+    g = VPHY(t - 1, i + 1, j*4 + 1);
  
     h2_uphy=h_ufil +h_dt* ((-grav * h_i_dx) * (b - h_hphy) + (pcor / 4.) * (h_vphy + e + f + g) -(dissip * h_ufil));
  
@@ -125,19 +125,19 @@ void forward(void) {
 
   c = 0.;
   if (j > 0)
-    c = HPHY(t - 1, i, j - 1);
+    c = HPHY(t - 1, i, j*4 - 1);
 
   d = 0.;
   if (i > 0 && j > 0)
-    d = UPHY(t - 1, i -1, j -1);
+    d = UPHY(t - 1, i -1, j*4 -1);
 
   e = 0.;
   if (i > 0)
-    e = UPHY(t - 1, i - 1, j);
+    e = UPHY(t - 1, i - 1, j*4);
 
   f = 0.;
   if (j > 0)
-    f = UPHY(t - 1, i, j - 1);
+    f = UPHY(t - 1, i, j*4 - 1);
  
     h2_vphy=h_vfil +dt * ((-grav / dy) * (h_hphy - c) -(pcor / 4.) * (d + e + f + h_uphy) -(dissip * h_vfil));
 
