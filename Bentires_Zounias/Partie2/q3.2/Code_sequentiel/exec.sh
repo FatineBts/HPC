@@ -1,6 +1,6 @@
 clear
 
-mkdir /tmp/3674377
+#mkdir /tmp/3674377
 
 make clean
 

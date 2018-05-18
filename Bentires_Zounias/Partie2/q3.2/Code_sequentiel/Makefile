@@ -1,4 +1,4 @@
-CXX=g++ -Wall -O3 -mavx2
+CXX=g++ -Wall -O3 -mavx 
 
 CPPFLAGS=-Iinc
 
