@@ -2,16 +2,16 @@
 #include <shalw.h>
 
 void alloc(void) {
-  ghFil = (double *) calloc(2*gsize_x*gsize_y, sizeof(double)); 
+  ghFil = (double *) aligned_alloc(32,2*gsize_x*gsize_y*sizeof(double));
 }
 
 void alloc_2(void) {
-  hFil = (double *) calloc(2*size_x*size_y, sizeof(double)); 
-  uFil = (double *) calloc(2*size_x*size_y, sizeof(double));
-  vFil = (double *) calloc(2*size_x*size_y, sizeof(double));
-  hPhy = (double *) calloc(2*size_x*size_y, sizeof(double));
-  uPhy = (double *) calloc(2*size_x*size_y, sizeof(double));
-  vPhy = (double *) calloc(2*size_x*size_y, sizeof(double));
+  hFil = (double *) aligned_alloc(32,2*size_x*size_y*sizeof(double));
+  uFil = (double *) aligned_alloc(32,2*size_x*size_y*sizeof(double));
+  vFil = (double *) aligned_alloc(32,2*size_x*size_y*sizeof(double));
+  hPhy = (double *) aligned_alloc(32,2*size_x*size_y*sizeof(double));
+  uPhy = (double *) aligned_alloc(32,2*size_x*size_y*sizeof(double));
+  vPhy = (double *) aligned_alloc(32,2*size_x*size_y*sizeof(double));
 }
 
 void dealloc(void)

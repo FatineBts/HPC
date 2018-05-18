@@ -1,4 +1,4 @@
-CXX=mpic++ -Wall -O3 -fopenmp -mavx2
+CXX=mpic++ -Wall -O3 -mavx
 
 CPPFLAGS=-Iinc 
 

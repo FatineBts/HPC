@@ -9,10 +9,6 @@
 #include <math.h>   /* pour le rint */
 #include <time.h>   /* chronometrage */
 #include "sys/time.h"
-#include <omp.h>
-#include <immintrin.h> 
-#include <malloc.h>
-
 
 double *hFil, *uFil, *vFil, *hPhy, *uPhy, *vPhy;
 double *ghFil;
@@ -65,7 +61,7 @@ int main(int argc, char **argv) {
   printf("Local memory allocated. Rang = %d \n", rang); 
    
 
-  MPI_Scatter(ghFil /*sbuf*/, (gsize_x/NP)*gsize_y /*scount*/, MPI_DOUBLE /*sdtype*/, hFil+size_y*(rang!=0) /*rbuf*/, (gsize_x/NP)*gsize_y /*rcount*/, MPI_DOUBLE /*rdtype*/, 0 /*root*/, MPI_COMM_WORLD /*comm*/);
+  MPI_Scatter(ghFil, (gsize_x/NP)*gsize_y, MPI_DOUBLE, hFil+size_y*(rang!=0), (gsize_x/NP)*gsize_y, MPI_DOUBLE, 0, MPI_COMM_WORLD);
  
   forward(NP, rang); // MPI send and receive 
   printf("State computed\n");
